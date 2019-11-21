@@ -79,6 +79,13 @@ describe("deepEqualFunction", () => {
     describe("should return true", () => {
       const expectedValue = true;
 
+      it("with empty array", () => {
+        const a = [],
+          b = [];
+        expect(deepEqualFunction(a, b)).toBe(expectedValue);
+        expect(deepEqualFunction(b, a)).toBe(expectedValue);
+      });
+
       it("with circulare structure", () => {
         const a = ["a"],
           b = ["a"];
@@ -249,6 +256,13 @@ describe("deepEqualFunction", () => {
         expect(deepEqualFunction(b, a)).toBe(expectedValue);
       });
 
+      it("with empty object", () => {
+        const a = {},
+          b = {};
+        expect(deepEqualFunction(a, b)).toBe(expectedValue);
+        expect(deepEqualFunction(b, a)).toBe(expectedValue);
+      });
+
       it("with simple object with same elements and same order", () => {
         const a = {
             attr1: 1,
@@ -406,30 +420,28 @@ describe("deepEqualFunction", () => {
     });
   });
 
-  describe("testof", () => {
-    it("should not pass with object circular", () => {
-      const a = {
-          attr: "a"
-        },
-        b = {
-          attr: "a"
-        };
+  it("should not pass with object circular", () => {
+    const a = {
+        attr: "a"
+      },
+      b = {
+        attr: "a"
+      };
 
-      a.circular = a;
-      b.circular = "not same";
-      expect(deepEqualFunction(a, b)).toBe(false);
-      expect(deepEqualFunction(b, a)).toBe(false);
-    });
+    a.circular = a;
+    b.circular = "not same";
+    expect(deepEqualFunction(a, b)).toBe(false);
+    expect(deepEqualFunction(b, a)).toBe(false);
+  });
 
-    it("should not pass with array circular", () => {
-      const a = ["a"],
-        b = ["a"];
+  it("should not pass with array circular", () => {
+    const a = ["a"],
+      b = ["a"];
 
-      a.push(a);
-      b.push("not same");
+    a.push(a);
+    b.push("not same");
 
-      expect(deepEqualFunction(a, b)).toBe(false);
-      expect(deepEqualFunction(b, a)).toBe(false);
-    });
+    expect(deepEqualFunction(a, b)).toBe(false);
+    expect(deepEqualFunction(b, a)).toBe(false);
   });
 });
